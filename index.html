@@ -26,10 +26,10 @@
       </h1>
     </header>
 
-    <form>
+    <form id="form">
             <div class="form-group">
                 <label for="exampleInputEmail1">Search Term</label>
-                <input type="email" class="form-control" id="search" aria-describedby="emailHelp"
+                <input type="input  " class="form-control" id="search" aria-describedby="emailHelp"
                     placeholder="Search Criteria">
             </div>
             <div class="form-group">
@@ -49,9 +49,11 @@
                 <input type="input" class="form-control" id="end" maxlength="4" placeholder="End Year in Format YYYY">
             </div>
             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            <button type="submit" class="btn btn-primary" id="clear">Clear</button>
         </form>
     <br>
-       <p id="content">Top Articles</p>
+       <h2>Top Articles</h2>
+       <p id="content"></p>
    </body>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -76,8 +78,10 @@
               method: "GET"
           }).then(function (response) {
               // $("#content").append()
-              for (let i = 0; i < parseInt(number); i++)
-              console.log(response.response.docs[i])
+              for (let i = 0; i < parseInt(number); i++) {
+                console.log(response.response.docs[i])
+                $("#content").append((`<p><a href="${response.response.docs[i].web_url}">${response.response.docs[i].headline.main}</a></p>`))
+              }
           })
       }
    
@@ -91,6 +95,11 @@
           var end = $("#end").val()
           sendRequest(search, number, start, end);
       })
+
+      $("#clear").click(function (event){
+         $("#form").reset()
+
+      });
    
    </script>
 
