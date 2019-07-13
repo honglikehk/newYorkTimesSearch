@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="setup.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>New York Article Search</title>
+  </head>
+
+  <body class="container">
+    <header>
+      <h1>
+        <i class="fa fa-newspaper-o" aria-hidden="true"></i> New York Times
+      </h1>
+    </header>
+
+    <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Search Term</label>
+                <input type="email" class="form-control" id="search" aria-describedby="emailHelp"
+                    placeholder="Search Criteria">
+            </div>
+            <div class="form-group">
+                <label for="sell">Number of Records to Retrieve</label>
+                <select class="form-control" id="sell">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15  </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Start Year (YYYY)</label>
+                <input type="input" class="form-control" id="start" maxlength="4" placeholder="Start Year in Format YYYY">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">End Year (YYYY)</label>
+                <input type="input" class="form-control" id="end" maxlength="4" placeholder="End Year in Format YYYY">
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        </form>
+    <br>
+       <p id="content">Top Articles</p>
+   </body>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+      //This will replace space with a + for search in api call
+      function addPlus(word) {
+          return word.replace(/ /g, '+')
+      }
+   
+      function add0101(year) {
+          return year + "0101"
+      }
+   
+      function sendRequest(search, number, start, end) {
+          // YOUR AJAX CALL GOES HERE
+          let myUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + addPlus(search) + '&begin_date='+add0101(start)+'&end_date='+add0101(end)+'&api-key=vf1ylI0Gz0W6GMupdlsvoXVcZsLXAiCb'
+   
+   
+          //Api Call
+          $.ajax({
+              url: myUrl,
+              method: "GET"
+          }).then(function (response) {
+              // $("#content").append()
+              for (let i = 0; i < parseInt(number); i++)
+              console.log(response.response.docs[i])
+          })
+      }
+   
+   
+      $("#submit").click(function (event) {
+          event.preventDefault()
+          $("#content").empty()
+          var search = $("#search").val()
+          var number = $("#sell").val()
+          var start = $("#start").val()
+          var end = $("#end").val()
+          sendRequest(search, number, start, end);
+      })
+   
+   </script>
+
+</body>
+
+</html>

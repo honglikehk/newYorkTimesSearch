@@ -1,0 +1,14 @@
+html {
+  font-family: "Ariel", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body {
+}
+
+h1 {
+  font-family: Arial, Helvetica, san-serif;
+}
+
+.clearfix {
+  overflow: auto;
+}
